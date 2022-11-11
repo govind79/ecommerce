@@ -5,7 +5,7 @@ import './models/product.js'
 import app from "./App.js"
 
 
- const port = 9000;
+ const port = 8081;
 
  
  mongoose.connect("mongodb://localhost:27017/ecommerce")

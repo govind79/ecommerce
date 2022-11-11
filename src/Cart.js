@@ -5,7 +5,8 @@ import { Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { ADD, REMOVE_ITEM} from "./Redux/actions/actions";
 import { REMOVE } from "./Redux/actions/actions";
-
+import Header from "./Header";
+import Footer from "./Footer";
 function Cart() {
   const history = useNavigate()
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ function Cart() {
 
   return (
     <div className="checkout-container">
+    <Header/>
       <section class="page-header">
         <div class="overly"></div>
         <div class="container">
@@ -117,7 +119,7 @@ function Cart() {
                                 class="product-thumbnail"
                                 data-title="Thumbnail"
                               >
-                                <Link to="/product-single">
+                                <Link to={`/single-product/${item._id}`}>
                                   <img
                                     src="assets/images/cart-2.jpg"
                                     class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
@@ -263,6 +265,7 @@ function Cart() {
           </div>
         </div>
       </section>
+      <Footer/>
     </div>
   );
 }

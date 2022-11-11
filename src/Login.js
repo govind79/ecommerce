@@ -4,8 +4,13 @@ import { Link } from "react-router-dom"
 import Button from 'react-bootstrap/Button';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Header from "./Header";
+import Footer from "./Footer";
 
 function Login() {
+    const notify = () => toast.success("login sucessfully ");
 
     const [email,setEmail]= useState("");
     const [password,setPassword]= useState("");
@@ -13,12 +18,12 @@ function Login() {
     // const history = useHistory();
     let navigate = useNavigate();
 
-    useEffect(()=>{
-        if(localStorage.getItem('user-info')){
-            navigate("/")
-        }
+    // useEffect(()=>{
+    //     if(localStorage.getItem('user-info')){
+            
+    //     }
 
-    },[])
+    // },[])
 
     // ======api integration=============//
 
@@ -28,6 +33,7 @@ function Login() {
 
 useEffect(()=>{
     handlelogin();
+    // navigate("/")
     
 
 },[])
@@ -53,7 +59,7 @@ console.log(token,"iuguy");
     
     var config = {
         method: 'post',
-        url: 'http://localhost:9000/login',
+        url: 'http://localhost:8081/login',
         headers: { 
           'Content-Type': 'application/json',
           "Accept": 'application/json',
@@ -66,8 +72,9 @@ console.log(token,"iuguy");
       .then(function (response) {
         console.log(JSON.stringify(response.data));
     
-        localStorage.setItem("user-info",(JSON.stringify(response.data)))
-        console.log(localStorage.setItem(),"token")
+        // localStorage.setItem("user-info",(JSON.stringify(response.data)))
+        // console.log(localStorage.setItem(),"token")
+        notify();
       })
       .catch(function (error) {
         console.log(error);
@@ -78,11 +85,12 @@ console.log(token,"iuguy");
 
     return (
         <div className="login-container">
+        <Header/>
             <div class="account section">
-                <div class="container">
+                <div class="container mt-5">
                 <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                    <div class="login-form border p-5">
+                    <div class="col-lg-5">
+                    <div class="login-form border p-4">
                         <div class="text-center heading">
                         <h2 class="mb-2">Login</h2>
                         <p class="lead">Don’t have an account? <Link to="/signup">Create a free account</Link></p>
@@ -97,10 +105,11 @@ console.log(token,"iuguy");
                             <label for="#">Enter Password</label>
                             <Link to="/forgot-password">Forgot password?</Link>
                             {/* <a class="float-right" href="">Forget password?</a> */}
-                            <input type="text" class="form-control"  value={password} onChange={(e=>{setPassword(e.target.value)})} placeholder="Enter Password" /> 
+                            <input type="password" class="form-control"  value={password} onChange={(e=>{setPassword(e.target.value)})} placeholder="Enter Password" /> 
                         </div>
+                        <ToastContainer />
                 
-                        <Button onClick={handlelogin} variant="primary">Login</Button>
+                        <Button onClick={()=>handlelogin} variant="primary">Login</Button>
                  
                         </form>
                     </div>
@@ -108,6 +117,7 @@ console.log(token,"iuguy");
                 </div>
                 </div>
             </div>
+            <Footer/>
         </div>
     )
 }

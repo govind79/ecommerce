@@ -8,24 +8,21 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { REMOVE_ITEM,DLT } from "./Redux/actions/actions";
-
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+import Header from "./Header";
 function SingleProduct() {
   //  const [product,setProduct] = useState([])
-
+  const notify = () => toast("item added sucessfully ");
   const [data, setData] = useState([]);
 console.log(data,"data")
   const { id } = useParams();
-// console.log(id,"singal id ")
+  console.log("id from home",id)
+
   const getdata = useSelector((state) => state.cartreducer.cart);
 
-// console.log(getdata,"getdata")
+
   const compare = () => {
-    // const comparedata = getdata.cart.filter((e) => {
-    //   // console.log(e._id,"filter")
-    //   return e._id == id;
-    // });
-
-
     // =======new=======
     const comparedata = getdata.filter((e) => {
       // console.log(e._id,"filter")
@@ -100,7 +97,9 @@ console.log(data,"data")
                           <div variant="info" className="mr-3">
                             {" "}
                             <span onClick={ ()=>sendr(item)}>+</span>
+                            
                           </div>
+                         
 
                           <Button  variant="primary">
                             Add to cart
@@ -186,7 +185,8 @@ console.log(data,"data")
 // =====add data=============//
   const sendr = (e) => {
     dispatch(ADD(e));
-    console.log(e, "test");
+    toast();
+    // console.log(e, "test");
   };
   const deleteitem = (item) => {
     dispatch(REMOVE_ITEM(item));
@@ -194,6 +194,7 @@ console.log(data,"data")
 
   return (
     <div className="single-product-container">
+<Header/>
       <section class="page-header">
         <div class="overly"></div>
         <div class="container">
@@ -294,82 +295,7 @@ console.log(data,"data")
               </div>
             </div>
             {dtaaa()}
-            {/* <div class="col-md-7">
-                    <div class="single-product-details mt-5 mt-lg-0">
-                        <h2>Eclipse Crossbody</h2>
-                        <div class="sku_wrapper mb-4">
-                        SKU: <span class="text-muted">AB1563456789 </span>
-                        </div>
             
-                        <hr />
-                        
-                        <h3 class="product-price">$300 <del>$119.90</del></h3>
-                        
-                        <p class="product-description my-4 ">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum ipsum dicta quod, quia doloremque aut deserunt commodi quis. Totam a consequatur beatae nostrum, earum consequuntur? Eveniet consequatur ipsum dicta recusandae.
-                        </p>
-            
-                        <form class="cart" action="#" method="post">
-                        <div class="quantity d-flex align-items-center">
-                            <input type="number" id="#" class="input-text qty text form-control w-25 mr-3" step="1" min="1" max="9" name="quantity" value={1} title="Qty" size="4" />
-
-                            <Button  variant="primary">Add to cart</Button>
-                            
-                        </div>
-                        </form>
-            
-                        
-                        <div class="color-swatches mt-4 d-flex align-items-center">
-                        <span class="font-weight-bold text-capitalize product-meta-title">color:</span>
-                        <ul class="list-inline mb-0">
-                            <li class="list-inline-item">
-                            <a routerLink="/product-single" class="bg-info"></a>
-                            </li>
-                            <li class="list-inline-item">
-                            <a routerLink="/product-single" class="bg-dark"></a>
-                            </li>
-                            <li class="list-inline-item">
-                            <a routerLink="/product-single" class="bg-danger"></a>
-                            </li>
-                        </ul>
-                        </div>
-            
-                        <div class="product-size d-flex align-items-center mt-4">
-                        <span class="font-weight-bold text-capitalize product-meta-title">Size:</span>
-                        <select class="form-control">
-                            <option>S</option>
-                            <option>M</option>
-                            <option>L</option>
-                            <option>XL</option>
-                        </select>
-                        </div>
-            
-                        <div class="products-meta mt-4">
-                        <div class="product-category d-flex align-items-center">
-                            <span class="font-weight-bold text-capitalize product-meta-title">Categories :</span>
-                            <a href="#">Products , </a>
-                            <a href="#">Soap</a>
-                        </div>
-            
-                        <div class="product-share mt-5">
-                            <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <a href="#"><i class="tf-ion-social-facebook"></i></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><i class="tf-ion-social-twitter"></i></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><i class="tf-ion-social-linkedin"></i></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><i class="tf-ion-social-pinterest"></i></a>
-                            </li>
-                            </ul>
-                        </div>
-                        </div>
-                    </div>
-                    </div> */}
           </div>
 
           <div class="row">

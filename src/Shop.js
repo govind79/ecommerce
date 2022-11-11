@@ -3,14 +3,23 @@ import { Button } from "react-bootstrap";
 import { ADD } from "./Redux/actions/actions";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
+import Header from "./Header";
+import Footer from "./Footer";
 
 function Shop() {
+
+
+  const notify = () => toast("product added sucessfully ");
+ 
   const [product, setProduct] = useState([]);
   // console.log(product,"array")
   const dispatch = useDispatch();
 
   const send = (e) => {
+    notify();
     dispatch(ADD(e));
     console.log(e);
   };
@@ -22,7 +31,7 @@ function Shop() {
   const getproduct = () => {
     var config = {
       method: "get",
-      url: "http://localhost:9000/products",
+      url: "http://localhost:8081/products",
       headers: {},
     };
 
@@ -38,6 +47,7 @@ function Shop() {
 
   return (
     <div className="shop-container">
+    <Header/>
       <section class="page-header">
         <div class="overly"></div>
         <div class="container">
@@ -144,145 +154,14 @@ function Shop() {
                           style={{ padding: "7px" }}
                           onClick={() => send(data)}
                         >
+                        <ToastContainer/>
                           Add to cart
                         </Button>
                       </div>
                     </>
                   );
                 })}
-                {/* <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5" >
-                        <div class="product">
-                    <div class="product-wrap">
-                    <Link to="/single-product"><img class="img-fluid w-100 mb-3 img-first" src="assets/images/322.jpg" alt="product-img" /></Link>
-                    <Link to="/single-product"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/444.jpg" alt="product-img" /></Link>
-                    </div>
-            
-                    <span class="onsale">Sale</span>
-                    <div class="product-hover-overlay">
-                    <Link to ="/single-product"><i class="tf-ion-android-cart"></i></Link>
-                    <Link to ="/single-product"><i class="tf-ion-ios-heart"></i></Link>
-                        </div>
-            {product.map((item,index)=>{
-                return<><div class="product-info">
-                    <h2 class="product-title h5 mb-0">{item.name}</h2>
-                    <span class="price">
-                       {item.price}
-                    </span>
-                    </div></>
-
-            })}
-
-           
-                    
-                </div>
-                    </div> */}
-
-                {/* <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5">
-                    <div class="product">
-                    <div class="product-wrap">
-                    <Link to="/single-product"><img class="img-fluid w-100 mb-3 img-first" src="assets/images/111.jpg" alt="product-img" /></Link>
-                    <Link to="/single-product"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/444.jpg" alt="product-img" /></Link>
-                    </div>
-            
-                    <div class="product-hover-overlay">
-                    <Link to ="/single-product"><i class="tf-ion-android-cart"></i></Link>
-                    <Link to ="/single-product"><i class="tf-ion-ios-heart"></i></Link>
-                        </div>
-                        
-                    <div class="product-info">
-                    <h2 class="product-title h5 mb-0"><Link to="/single-product">Open knit switer</Link></h2>
-                    <span class="price">
-                        $29.10
-                    </span>
-                    </div>
-                </div>
-                    </div>
-            
-                    <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5" >
-                    <div class="product">
-                    <div class="product-wrap">
-                    <Link to="/single-product"><img class="img-fluid w-100 mb-3 img-first" src="assets/images/222.jpg" alt="product-img" /></Link>
-                    <Link to="/single-product"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/322.jpg" alt="product-img" /></Link>
-                    </div>
-            
-                    <span class="onsale">Sale</span>
-                    <div class="product-hover-overlay">
-                    <Link to ="/single-product"><i class="tf-ion-android-cart"></i></Link>
-                    <Link to ="/single-product"><i class="tf-ion-ios-heart"></i></Link>
-                        </div>
-            
-                    <div class="product-info">
-                    <h2 class="product-title h5 mb-0"><Link to="/single-product">Official trendy</Link></h2>
-                    <span class="price">
-                        $350.00 – $355.00
-                    </span>
-                    </div>
-                </div>
-                    </div>
-            
-                    <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5">
-                <div class="product">
-                    <div class="product-wrap">
-                    <Link to="/single-product"><img class="img-fluid w-100 mb-3 img-first" src="assets/images/322.jpg" alt="product-img" /></Link>
-                    <Link to="/single-product"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/111.jpg" alt="product-img" /></Link>
-                    </div>
-            
-                    <div class="product-hover-overlay">
-                    <Link to ="/single-product"><i class="tf-ion-android-cart"></i></Link>
-                    <Link to ="/single-product"><i class="tf-ion-ios-heart"></i></Link>
-                        </div>
-            
-                    <div class="product-info">
-                    <h2 class="product-title h5 mb-0"><Link to="/single-product">Frock short</Link></h2>
-                    <span class="price">
-                        $249
-                    </span>
-                    </div>
-                </div>
-                    </div>
-            
-                    <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5">
-                    <div class="product">
-                    <div class="product-wrap">
-                    <Link to="/single-product"><img class="img-fluid w-100 mb-3 img-first" src="assets/images/444.jpg" alt="product-img" /></Link>
-                    <Link to="/single-product"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/222.jpg" alt="product-img" /></Link>
-                    </div>
-            
-                    <div class="product-hover-overlay">
-                    <Link to ="/single-product"><i class="tf-ion-android-cart"></i></Link>
-                    <Link to ="/single-product"><i class="tf-ion-ios-heart"></i></Link>
-                        </div>
-            
-                    <div class="product-info">
-                    <h2 class="product-title h5 mb-0"><Link to="/single-product">Sleeve dress</Link></h2>
-                    <span class="price">
-                        $59.10
-                    </span>
-                    </div>
-                </div>
-                    </div>
-            
-                    <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5" >
-                    <div class="product">
-                    <div class="product-wrap">
-                    <Link to="/single-product"><img class="img-fluid w-100 mb-3 img-first" src="assets/images/322.jpg" alt="product-img" /></Link>
-                    <Link to="/single-product"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/222.jpg" alt="product-img" /></Link>
-                    </div>
-            
-                    <div class="product-hover-overlay">
-                    <Link to ="/single-product"><i class="tf-ion-android-cart"></i></Link>
-                    <Link to ="/single-product"><i class="tf-ion-ios-heart"></i></Link>
-                        </div>
-            
-                    <div class="product-info">
-                    <h2 class="product-title h5 mb-0"><Link to="/single-product">Stylish dress</Link></h2>
-                    <span class="price">
-                        $99.00
-                    </span>
-                    </div>
-                </div>
-                    </div>
-             */}
+               
 
                 <div class="col-12">
                   <nav aria-label="Page navigation">
@@ -290,31 +169,31 @@ function Shop() {
                       <li class="page-item">
                         <Link
                           class="page-link"
-                          to="/single-product"
+                         
                           aria-label="Previous"
                         >
                           <span aria-hidden="true">&laquo;</span>
                         </Link>
                       </li>
                       <li class="page-item active">
-                        <Link class="page-link" to="/single-product">
+                        <Link class="page-link" >
                           1
                         </Link>
                       </li>
                       <li class="page-item">
-                        <Link class="page-link" to="/single-product">
+                        <Link class="page-link" >
                           2
                         </Link>
                       </li>
                       <li class="page-item">
-                        <Link class="page-link" to="/single-product">
+                        <Link class="page-link" >
                           3
                         </Link>
                       </li>
                       <li class="page-item">
                         <Link
                           class="page-link"
-                          to="/single-product"
+                          
                           aria-label="Next"
                         >
                           <span aria-hidden="true">&raquo;</span>
@@ -460,7 +339,9 @@ function Shop() {
               </form>
 
               <section class="widget widget-popular mb-5">
+
                 <h3 class="widget-title mb-4 h4">Popular Products</h3>
+                
                 <Link class="popular-products-item media" to="/single-product">
                   <img
                     src="assets/images/p-1.jpg"
@@ -511,6 +392,7 @@ function Shop() {
           </div>
         </div>
       </section>
+      <Footer/>
     </div>
   );
 }

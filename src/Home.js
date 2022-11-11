@@ -1,6 +1,60 @@
+
+import axios from "axios";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { REMOVE } from "./Redux/actions/actions";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ADD } from "./Redux/actions/actions";
+import Header from "./Header";
+import Footer from "./Footer";
+
+
+
+
 function Home() {
+    const getdata = useSelector((state) => state.cartreducer.cart);
+    console.log(getdata,"datta")
+
+
+    
+    const [product, setProduct] = useState([]);
+    const dispatch = useDispatch();
+    const sendr = (e) => {
+        dispatch(ADD(e));
+        toast();
+        // console.log(e, "test");
+      };
+
+
+    useEffect(() => {
+        getproduct([]);
+      }, []);
+    
+
+    const getproduct = () => {
+        var config = {
+          method: "get",
+          url: "http://localhost:8081/products",
+          headers: {},
+        };
+    
+        axios(config)
+          .then(function (response) {
+            console.log(JSON.stringify(response.data, "products"));
+            setProduct(response.data.productlist);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      };
+
+
     return (
         <div className="home-container">
+        <Header/>
             <div className="main-slider slider slick-initialized slick-slider">
                     <div  class="slider-item" style={{backgroundImage:"url('assets/images/slideshow1-2.jpg')", backgroundPosition:"50%",backgroundRepeat:"no-repeat"}}>
                         <div class="container">
@@ -9,7 +63,7 @@ function Home() {
                             <div class="slider-caption">
                                 <span class="lead">Trendy dress</span>
                                 <h1 class="mt-2 mb-5"><span class="text-color">Winter </span>Collection</h1>
-                                <a href="#" class="btn btn-main">Shop Now</a>
+                                <Link to="/shop" class="btn btn-main">Shop Now</Link>
                             </div>
                             </div>
                         </div>
@@ -25,7 +79,7 @@ function Home() {
                     <div class="item-info">
                         <p class="mb-0">Stylish Leather watch</p>
                         <h4 class="mb-4">up to <strong>50% </strong>off</h4>
-                        <a href="#" class="read-more">Shop now</a>
+                        <Link to="/shop" class="read-more">Shop now</Link>
                     </div>
                     </div>
                 </div>
@@ -35,7 +89,7 @@ function Home() {
                     <div class="item-info">
                         <p class="mb-0">Ladies hand bag</p>
                         <h4 class="mb-4">up to <strong>40% </strong>off</h4>
-                        <a href="#" class="read-more">Shop now</a>
+                        <Link to="/shop" class="read-more">Shop now</Link>
                     </div>
                     </div>
                 </div>
@@ -45,7 +99,7 @@ function Home() {
                     <div class="item-info">
                         <p class="mb-0">Trendy shoe</p>
                         <h4 class="mb-4">up to <strong>50% </strong>off</h4>
-                        <a href="#" class="read-more">Shop now</a>
+                        <Link to="/shop" class="read-more">Shop now</Link>
                     </div>
                     </div>
                 </div>
@@ -65,176 +119,40 @@ function Home() {
             
             
                 <div class="row">
-                    <div class="col-lg-3 col-12 col-md-6 col-sm-6 mb-5" >
+
+                {
+                    product.map((element,index)=>{
+                        console.log(element._id,"home js")
+                        return<> <div class="col-lg-3 col-12 col-md-6 col-sm-6 mb-5" >
                         <div class="product">
                         <div class="product-wrap">
-                            <a href="/product-single"><img class="img-fluid w-100 mb-3 img-first" src="assets/images/322.jpg" alt="product-img" /></a>
-                            <a href="/product-single"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/444.jpg" alt="product-img" /></a>
+                        <NavLink to={`/single-product/${element._id}`}><img class="img-fluid w-100 mb-3 img-first" src="assets/images/322.jpg" alt="product-img" /></NavLink>
+                            <Link to="/single-product"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/444.jpg" alt="product-img" /></Link>
                         </div>
             
                         <span class="onsale">Sale</span>
                         <div class="product-hover-overlay">
-                            <a href="#"><i class="tf-ion-android-cart"></i></a>
-                            <a href="#"><i class="tf-ion-ios-heart"></i></a>
+                            <Link to="#" onClick={ ()=>sendr(element)}><span   
+                            class="tf-ion-android-cart"></span>  <ToastContainer/> </Link>
+                           
+                            <Link to="#"><i class="tf-ion-ios-heart"></i></Link>
                             </div>
             
                         <div class="product-info">
-                            <h2 class="product-title h5 mb-0"><a href="#">Floral Kirby</a></h2>
+                            <h2 class="product-title h5 mb-0"><Link to="#">{element.name}</Link></h2>
                             <span class="price">
-                                $329.10
+                               {element.price}$
                             </span>
                         </div>
                     </div>
                     </div>
-            
-                    <div class="col-lg-3 col-12 col-md-6 col-sm-6 mb-5">
-                    <div class="product">
-                        <div class="product-wrap">
-                            <a href="/product-single"><img class="img-fluid w-100 mb-3 img-first" src="assets/images/111.jpg" alt="product-img" /></a>
-                            <a href="/product-single"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/444.jpg" alt="product-img" /></a>
-                        </div>
-            
-                        <div class="product-hover-overlay">
-                            <a href="#"><i class="tf-ion-android-cart"></i></a>
-                            <a href="#"><i class="tf-ion-ios-heart"></i></a>
-                            </div>
-                            
-                        <div class="product-info">
-                            <h2 class="product-title h5 mb-0"><a href="#">Open knit switer</a></h2>
-                            <span class="price">
-                                $29.10
-                            </span>
-                        </div>
-                    </div>
-                    </div>
-            
-                    <div class="col-lg-3 col-12 col-md-6 col-sm-6 mb-5" >
-                    <div class="product">
-                        <div class="product-wrap">
-                            <a href="/product-single"><img class="img-fluid w-100 mb-3 img-first" src="assets/images/222.jpg" alt="product-img" /></a>
-                            <a href="/product-single"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/322.jpg" alt="product-img" /></a>
-                        </div>
-            
-                        <span class="onsale">Sale</span>
-                        <div class="product-hover-overlay">
-                            <a href="#"><i class="tf-ion-android-cart"></i></a>
-                            <a href="#"><i class="tf-ion-ios-heart"></i></a>
-                            </div>
-            
-                        <div class="product-info">
-                            <h2 class="product-title h5 mb-0"><a href="#">Official trendy</a></h2>
-                            <span class="price">
-                                $350.00 – $355.00
-                            </span>
-                        </div>
-                    </div>
-                    </div>
-            
-                    <div class="col-lg-3 col-12 col-md-6 col-sm-6 mb-5">
-                    <div class="product">
-                        <div class="product-wrap">
-                            <a href="/product-single"><img class="img-fluid w-100 mb-3 img-first" src="assets/images/322.jpg" alt="product-img" /></a>
-                            <a href="/product-single"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/111.jpg" alt="product-img" /></a>
-                        </div>
-            
-                        <div class="product-hover-overlay">
-                            <a href="#"><i class="tf-ion-android-cart"></i></a>
-                            <a href="#"><i class="tf-ion-ios-heart"></i></a>
-                            </div>
-            
-                        <div class="product-info">
-                            <h2 class="product-title h5 mb-0"><a href="#">Frock short</a></h2>
-                            <span class="price">
-                                $249
-                            </span>
-                        </div>
-                    </div>
-                    </div>
-            
-                    <div class="col-lg-3 col-12 col-md-6 col-sm-6 mb-5">
-                    <div class="product">
-                        <div class="product-wrap">
-                            <a href="#"><img class="img-fluid w-100 mb-3 img-first" src="assets/images/444.jpg" alt="product-img" /></a>
-                            <a href="#"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/222.jpg" alt="product-img" /></a>
-                        </div>
-            
-                        <div class="product-hover-overlay">
-                            <a href="#"><i class="tf-ion-android-cart"></i></a>
-                            <a href="#"><i class="tf-ion-ios-heart"></i></a>
-                            </div>
-            
-                        <div class="product-info">
-                            <h2 class="product-title h5 mb-0"><a href="#">Sleeve dress</a></h2>
-                            <span class="price">
-                                $59.10
-                            </span>
-                        </div>
-                    </div>
-                    </div>
-            
-                    <div class="col-lg-3 col-12 col-md-6 col-sm-6 mb-5" >
-                    <div class="product">
-                        <div class="product-wrap">
-                            <a href="#"><img class="img-fluid w-100 mb-3 img-first" src="assets/images/322.jpg" alt="product-img" /></a>
-                            <a href="#"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/222.jpg" alt="product-img" /></a>
-                        </div>
-            
-                        <div class="product-hover-overlay">
-                            <a href="#"><i class="tf-ion-android-cart"></i></a>
-                            <a href="#"><i class="tf-ion-ios-heart"></i></a>
-                            </div>
-            
-                        <div class="product-info">
-                            <h2 class="product-title h5 mb-0"><a href="#">Stylish dress</a></h2>
-                            <span class="price">
-                                $99.00
-                            </span>
-                        </div>
-                    </div>
-                    </div>
-            
-                    <div class="col-lg-3 col-12 col-md-6 col-sm-6 mb-5 " >
-                    <div class="product">
-                        <div class="product-wrap">
-                            <a href="#"><img class="img-fluid w-100 mb-3 img-first" src="assets/images/111.jpg" alt="product-img" /></a>
-                            <a href="#"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/444.jpg" alt="product-img" /></a>
-                        </div>
-            
-                        <div class="product-hover-overlay">
-                            <a href="#"><i class="tf-ion-android-cart"></i></a>
-                            <a href="#"><i class="tf-ion-ios-heart"></i></a>
-                            </div>
-            
-                        <div class="product-info">
-                            <h2 class="product-title h5 mb-0"><a href="#">Body suite</a></h2>
-                            <span class="price">
-                                $329.10
-                            </span>
-                        </div>
-                    </div>
-                    </div>
-            
-                <div class="col-lg-3 col-12 col-md-6 col-sm-6 mb-5 " >
-                    <div class="product">
-                        <div class="product-wrap">
-                            <a href="#"><img class="img-fluid w-100 mb-3 img-first" src="assets/images/222.jpg" alt="product-img" /></a>
-                            <a href="#"><img class="img-fluid w-100 mb-3 img-second" src="assets/images/322.jpg" alt="product-img" /></a>
-                        </div>
-            
-                        <div class="product-hover-overlay">
-                            <a href="#"><i class="tf-ion-android-cart"></i></a>
-                            <a href="#"><i class="tf-ion-ios-heart"></i></a>
-                            </div>
-            
-                        <div class="product-info">
-                            <h2 class="product-title h5 mb-0"><a href="#">Sleeve linen shirt</a></h2>
-                            <span class="price">
-                                <del>60<pre wp-pre-tag-3=""></pre></del>
-                                $50.10
-                            </span>
-                        </div>
-                    </div>
-                    </div>
+
+                        </>
+
+                    })
+
+                }
+                
                 </div>
                 </div>
             </section>
@@ -249,7 +167,7 @@ function Home() {
                     <p class="text-md mt-3 text-white">Hurry up! Limited time offer.Grab ot now!</p>
                    
                         <div id="simple-timer" class="syotimer mb-5"></div>
-                    <a href="#" class="btn btn-main"><i class="ti-bag mr-2"></i>Shop Now </a>
+                    <Link to="/shop" class="btn btn-main"><i class="ti-bag mr-2"></i>Shop Now </Link>
                     </div>
                 </div>
                 </div>
@@ -265,47 +183,47 @@ function Home() {
                     <div class="widget-featured-entries mt-5 mt-lg-0">
                     <h4 class="mb-4 pb-3">Best selllers</h4>
                             <div class="media mb-3">
-                                <a class="featured-entry-thumb" href="/product-single">
+                                <Link class="featured-entry-thumb" to="/single-product">
                                 <img src="assets/images/p-1.jpg" alt="Product thumb" width="64" class="img-fluid mr-3" />
-                            </a>
+                            </Link>
                             <div class="media-body">
-                                <h6 class="featured-entry-title mb-0"><a href="#">Keds - Kickstart Pom Pom</a></h6>
+                                <h6 class="featured-entry-title mb-0"><Link to="#">Keds - Kickstart Pom Pom</Link></h6>
                                 <p class="featured-entry-meta">$42.99</p>
                             </div>
                             </div>
                             <div class="media mb-3">
-                                <a class="featured-entry-thumb" href="#">
+                                <Link class="featured-entry-thumb" to="#">
                                 <img src="assets/images/p-2.jpg" alt="Product thumb" width="64" class="img-fluid mr-3" />
-                            </a>
+                            </Link>
                             <div class="media-body">
-                                <h6 class="featured-entry-title mb-0"><a href="#">Nike - Brasilia Medium Backpack</a></h6>
+                                <h6 class="featured-entry-title mb-0"><Link to="#">Nike - Brasilia Medium Backpack</Link></h6>
                                 <p class="featured-entry-meta">$27.99</p>
                             </div>
                             </div>
                             <div class="media mb-3">
-                            <a class="featured-entry-thumb" href="#">
+                            <Link class="featured-entry-thumb" to="#">
                                 <img src="assets/images/p-3.jpg" alt="Product thumb" width="64" class="img-fluid mr-3" />
-                            </a>
+                            </Link>
                             <div class="media-body">
-                                <h6 class="featured-entry-title mb-0"><a href="#">Guess - GU7295</a></h6>
+                                <h6 class="featured-entry-title mb-0"><Link to="#">Guess - GU7295</Link></h6>
                                 <p>$38.00</p>
                             </div>
                             </div>
                             <div class="media mb-3">
-                                <a class="featured-entry-thumb" href="#">
+                                <Link class="featured-entry-thumb" to="#">
                                 <img src="assets/images/p-4.jpg" alt="Product thumb" width="64" class="img-fluid mr-3" />
-                            </a>
+                            </Link>
                             <div class="media-body">
-                                <h6 class="featured-entry-title mb-0"><a href="#">Adidas Originals Cap</a></h6>
+                                <h6 class="featured-entry-title mb-0"><Link to="#">Adidas Originals Cap</Link></h6>
                                 <p class="featured-entry-meta">$35.00</p>
                             </div>
                             </div>
                             <div class="media">
-                                <a class="featured-entry-thumb" href="#">
+                                <Link class="featured-entry-thumb" to="#">
                                 <img src="assets/images/p-5.jpg" alt="Product thumb" width="64" class="img-fluid mr-3" />
-                            </a>
+                            </Link>
                             <div class="media-body">
-                                <h6 class="featured-entry-title mb-0"><a href="#">Big Star Flip Tops</a></h6>
+                                <h6 class="featured-entry-title mb-0"><Link to="#">Big Star Flip Tops</Link></h6>
                                 <p class="featured-entry-meta">$10.60</p>
                             </div>
                             </div>
@@ -315,47 +233,47 @@ function Home() {
                     <div class="widget-featured-entries mt-5 mt-lg-0">
                     <h4 class="mb-4 pb-3">New Arrivals</h4>
                             <div class="media mb-3">
-                                <a class="featured-entry-thumb" href="/product-single">
+                                <Link class="featured-entry-thumb" to="/single-product">
                                 <img src="assets/images/p-7.jpg" alt="Product thumb" width="64" class="img-fluid mr-3" />
-                            </a>
+                            </Link>
                             <div class="media-body">
-                                <h6 class="featured-entry-title mb-0"><a href="#">Keds - Kickstart Pom Pom</a></h6>
+                                <h6 class="featured-entry-title mb-0"><Link to="#">Keds - Kickstart Pom Pom</Link></h6>
                                 <p class="featured-entry-meta">$42.99</p>
                             </div>
                             </div>
                             <div class="media mb-3">
-                                <a class="featured-entry-thumb" href="#">
+                                <Link class="featured-entry-thumb" to="#">
                                 <img src="assets/images/p-8.jpg" alt="Product thumb" width="64" class="img-fluid mr-3" />
-                            </a>
+                            </Link>
                             <div class="media-body">
-                                <h6 class="featured-entry-title mb-0"><a href="#">Nike - Brasilia Medium Backpack</a></h6>
+                                <h6 class="featured-entry-title mb-0"><Link to="#">Nike - Brasilia Medium Backpack</Link></h6>
                                 <p class="featured-entry-meta">$27.99</p>
                             </div>
                             </div>
                             <div class="media mb-3">
-                            <a class="featured-entry-thumb" href="#">
+                            <Link class="featured-entry-thumb" to="#">
                                 <img src="assets/images/p-1.jpg" alt="Product thumb" width="64" class="img-fluid mr-3" />
-                            </a>
+                            </Link>
                             <div class="media-body">
-                                <h6 class="featured-entry-title mb-0"><a href="#">Guess - GU7295</a></h6>
+                                <h6 class="featured-entry-title mb-0"><Link to="#">Guess - GU7295</Link></h6>
                                 <p>$38.00</p>
                             </div>
                             </div>
                             <div class="media mb-3">
-                                <a class="featured-entry-thumb" href="#">
+                                <Link class="featured-entry-thumb" to="#">
                                 <img src="assets/images/p-2.jpg" alt="Product thumb" width="64" class="img-fluid mr-3" />
-                            </a>
+                            </Link>
                             <div class="media-body">
-                                <h6 class="featured-entry-title mb-0"><a href="#">Adidas Originals Cap</a></h6>
+                                <h6 class="featured-entry-title mb-0"><Link to="#">Adidas Originals Cap</Link></h6>
                                 <p class="featured-entry-meta">$35.00</p>
                             </div>
                             </div>
                             <div class="media">
-                                <a class="featured-entry-thumb" href="#">
+                                <Link class="featured-entry-thumb" to="#">
                                 <img src="assets/images/p-4.jpg" alt="Product thumb" width="64" class="img-fluid mr-3" />
-                            </a>
+                            </Link>
                             <div class="media-body">
-                                <h6 class="featured-entry-title mb-0"><a href="#">Big Star Flip Tops</a></h6>
+                                <h6 class="featured-entry-title mb-0"><Link to="#">Big Star Flip Tops</Link></h6>
                                 <p class="featured-entry-meta">$10.60</p>
                             </div>
                             </div>
@@ -406,6 +324,7 @@ function Home() {
                 </div>
             </div>
             </section>
+            <Footer/>
         </div>
     )
 }

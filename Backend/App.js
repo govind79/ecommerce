@@ -53,7 +53,7 @@ app.post("/product/new", async (req, res, next) => {
     description: req.body.description,
     price: req.body.price,
     category: req.body.category,
-    images: req.body.images,
+    // images: req.file.path,
   });
   products.save();
 

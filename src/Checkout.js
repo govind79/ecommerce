@@ -1,6 +1,29 @@
 import { Link } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 function Checkout() {
+    const [price, setprice] = useState(0);
+    console.log(price,"checkout")
+    const dispatch = useDispatch();
+
+    const getcartdata = useSelector((state) => state.cartreducer);
+
+    const total = () => {
+        let price = 0;
+        getcartdata.cart.map((ele, key) => {
+          const data = ele.quentity;
+          price += ele.price * data;
+        });
+    
+        setprice(price);
+      };
+
+      useEffect(() => {
+        total();
+      }, [total]);
+    
+    
     return (
         <div className="checkout-container">
             <section class="page-header">
@@ -163,20 +186,23 @@ function Checkout() {
         
                     
                     <div class="col-md-6 col-lg-4">
-                        <div class="product-checkout-details mt-5 mt-lg-0">
+
+                    {
+                        getcartdata.cart.map((ele,index)=>{
+                            return<><div class="product-checkout-details mt-5 mt-lg-0">
                             <h4 class="mb-4 border-bottom pb-4">Order Summary</h4>
         
                             <div class="media product-card">
-                                <p>Kirby Shirt</p>
+                                <p>{ele.name}</p>
                                 <div class="media-body text-right">
-                                    <p class="h5">1 x $249</p>
+                                    <p class="h5">{ele.quentity} x {ele.price}</p>
                                 </div>
                             </div>
         
                             <ul class="summary-prices list-unstyled mb-4">
                                 <li class="d-flex justify-content-between">
                                     <span >Subtotal:</span>
-                                    <span class="h5">$190</span>
+                                    <span class="h5">{price}</span>
                                 </li>
                                 <li class="d-flex justify-content-between">
                                     <span >Shipping:</span>
@@ -184,7 +210,7 @@ function Checkout() {
                                 </li>
                                 <li class="d-flex justify-content-between">
                                     <span>Total</span>
-                                    <span class="h5">$250</span>
+                                    <span class="h5">{price}</span>
                                 </li>
                             </ul>
         
@@ -217,7 +243,65 @@ function Checkout() {
                                 Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <Link href="#">privacy policy</Link>.
                             </div>
                             <Link href="/checkout" class="btn btn-main btn-small">Place Order</Link>
-                        </div>
+                        </div></>
+
+                        })
+                    }
+                        {/* <div class="product-checkout-details mt-5 mt-lg-0">
+                            <h4 class="mb-4 border-bottom pb-4">Order Summary</h4>
+        
+                            <div class="media product-card">
+                                <p>Kirby Shirt</p>
+                                <div class="media-body text-right">
+                                    <p class="h5">1 x $249</p>
+                                </div>
+                            </div>
+        
+                            <ul class="summary-prices list-unstyled mb-4">
+                                <li class="d-flex justify-content-between">
+                                    <span >Subtotal:</span>
+                                    <span class="h5">{price}</span>
+                                </li>
+                                <li class="d-flex justify-content-between">
+                                    <span >Shipping:</span>
+                                    <span class="h5">Free</span>
+                                </li>
+                                <li class="d-flex justify-content-between">
+                                    <span>Total</span>
+                                    <span class="h5">{price}</span>
+                                </li>
+                            </ul>
+        
+                            <form action="#">
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked />
+                                    <label class="form-check-label" for="exampleRadios1">
+                                    Direct bank transfer 
+                                    </label>
+        
+                                    <div class="alert alert-secondary mt-3" role="alert">
+                                    Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.
+                                    </div>
+                                </div>
+        
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" />
+                                    <label class="form-check-label" for="exampleRadios2">
+                                    Check payments 
+                                    </label>
+                                </div>
+        
+                                <div class="form-check mb-3">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck3" />
+                                    <label class="form-check-label" for="exampleCheck3">I have read and agree to the website terms and conditions *</label>
+                                    </div>
+                            </form>
+        
+                            <div class="info mt-4 border-top pt-4 mb-5">
+                                Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <Link href="#">privacy policy</Link>.
+                            </div>
+                            <Link href="/checkout" class="btn btn-main btn-small">Place Order</Link>
+                        </div> */}
                     </div>
                 </div>
                 </div>

@@ -6,19 +6,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { REMOVE } from "./Redux/actions/actions";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Header() {
+  const notify = () => toast("product removed sucessfully ");
   const [price, setprice] = useState(0);
 
   console.log(price, "price total");
   const getdata = useSelector((state) => state.cartreducer);
-console.log(getdata.cart,"headerdata")
+  console.log(getdata.cart, "headerdata");
   const dispatch = useDispatch();
 
-//   const { id } = useParams();
+  //   const { id } = useParams();
 
   const remove = (_id) => {
     console.log(_id, "head");
     dispatch(REMOVE(_id));
+    notify();
   };
 
   // ----NEW----
@@ -35,7 +39,7 @@ console.log(getdata.cart,"headerdata")
     getdata.cart.map((ele, key) => {
       const data = ele.quentity;
       price += ele.price * data;
-      console.log(data,"data")
+      console.log(data, "data");
     });
 
     setprice(price);
@@ -45,12 +49,14 @@ console.log(getdata.cart,"headerdata")
     total();
   }, [total]);
 
+ 
   return (
-    <nav
-      class="navbar navbar-expand-lg navbar-light bg-white w-100 navigation"
+    
+    <nav style={{"background-color":"#508ccf","position":"fixed","zIndex":"1000"}}
+      class="navbar navbar-expand-lg navbar-light bg-blue w-100 navigation"
       id="navbar"
     >
-      <div class="container">
+      <div class="container" >
         <Link class="navbar-brand font-weight-bold" to={{ pathname: "/" }}>
           E-Shop
         </Link>
@@ -73,7 +79,7 @@ console.log(getdata.cart,"headerdata")
               </Link>
             </li>
             <li class="nav-item">
-              <Link class="nav-link" href="#">
+              <Link class="nav-link" to="#">
                 About Us
               </Link>
             </li>
@@ -81,7 +87,7 @@ console.log(getdata.cart,"headerdata")
             <li class="nav-item dropdown dropdown-slide">
               <Link
                 class="nav-link dropdown-toggle"
-                href="#"
+                to="#"
                 id="navbarDropdown4"
                 role="button"
                 data-delay="350"
@@ -93,29 +99,29 @@ console.log(getdata.cart,"headerdata")
               </Link>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown4">
                 <li>
-                  <Link href="#">About Us</Link>
+                  <Link to="#">About Us</Link>
                 </li>
                 <li>
-                  <Link href="#">Blog</Link>
+                  <Link to="#">Blog</Link>
                 </li>
                 <li>
-                  <Link href="#">Blog Single</Link>
+                  <Link to="#">Blog Single</Link>
                 </li>
                 <li>
-                  <Link href="#">Contact</Link>
+                  <Link to="#">Contact</Link>
                 </li>
                 <li>
-                  <Link href="#">404 Page</Link>
+                  <Link to="#">404 Page</Link>
                 </li>
                 <li>
-                  <Link href="#">FAQ</Link>
+                  <Link to="#">FAQ</Link>
                 </li>
               </ul>
             </li>
             <li class="nav-item dropdown dropdown-slide">
               <Link
                 class="nav-link dropdown-toggle"
-                href="#"
+                to="#"
                 id="navbarDropdown3"
                 role="button"
                 data-delay="350"
@@ -146,7 +152,7 @@ console.log(getdata.cart,"headerdata")
             <li class="nav-item dropdown dropdown-slide">
               <Link
                 class="nav-link dropdown-toggle"
-                href="#"
+                to="#"
                 id="navbarDropdown5"
                 role="button"
                 data-delay="350"
@@ -175,70 +181,83 @@ console.log(getdata.cart,"headerdata")
 
         <ul class="top-menu list-inline mb-0 d-none d-lg-block" id="top-menu">
           <li class="list-inline-item">
-            <Link href="#" class="search_toggle" id="search-icon">
+            <Link to="#" class="search_toggle" id="search-icon">
               <i class="tf-ion-android-search"></i>
             </Link>
           </li>
           <li class="dropdown cart-nav dropdown-slide list-inline-item">
             <Link
-              href="#"
+              to="#"
               class="dropdown-toggle cart-icon"
               data-toggle="dropdown"
               data-hover="dropdown"
             >
               <i class="tf-ion-android-cart"> </i>
-              <span style={{ color: "blue" }}>{getdata.cart.length}</span>
+              <span style={{ color: "brown",fontSize:"20px",position:"relative" }}>{getdata.cart.length}</span>
             </Link>
             <div class="dropdown-menu cart-dropdown">
-            {
-              getdata.cart.length ?  <div>
-              {getdata.cart.map((item) => {
-                console.log(item, "id");
-                return (
-                  <> 
-                   <div class="media">
-                      <NavLink to={`/single-product/${item._id}`}>
-                        <img
-                          class="media-object img-fluid mr-3"
-                          src="assets/images/cart-2.jpg"
-                          alt=""
-                        />
-                      </NavLink>
-                      <div class="media-body">
-                        <h6>{item.name}</h6>
-                        <div class="cart-price">
-                          {/* <span>{item.quentity}</span> */}
-                          <span>
-                            {item.price}$*{item.quentity}
-                          </span>
-                          <br></br>
-                          <span>quentity:{item.quentity}</span>
-                        </div>
-                      </div>
-                      <Link
-                        href="#"
-                        class="remove"
-                        onClick={() => remove(item._id)}
-                      >
-                        <i class="tf-ion-close"></i>
-                      </Link>
+              {getdata.cart.length ? (
+                <div>
+                  {getdata.cart.map((item) => {
+                    console.log(item, "id");
+                    return (
+                      <>
+                        <div class="media">
+                          <NavLink to={`/single-product/${item._id}`}>
+                            <img
+                              class="media-object img-fluid mr-3"
+                              src="assets/images/cart-2.jpg"
+                              alt=""
+                            />
+                          </NavLink>
+                          <div class="media-body">
+                            <h6>{item.name}</h6>
+                            <div class="cart-price">
+                              {/* <span>{item.quentity}</span> */}
+                              <span>
+                                {item.price}$*{item.quentity}
+                              </span>
+                              <br></br>
+                              <span>quentity:{item.quentity}</span>
+                            </div>
+                          </div>
+                          <Link
+                            to="#"
+                            class="remove"
+                            onClick={() => remove(item._id)}
+                          >
+                            <ToastContainer
+                              position="top-right"
+                              autoClose={5000}
+                              hideProgressBar={false}
+                              newestOnTop={false}
+                              closeOnClick ={true}
+                              rtl={false}
+                              pauseOnFocusLoss
+                              draggable
+                              pauseOnHover
+                              theme="light"
+                            />
+                            <i class="tf-ion-close"></i>
+                          </Link>
 
-                      {/* <Link
-                        href="#"
+                          {/* <Link
+                        to="#"
                         class="remove"
                         onClick={(e) => dlt(e._id)}
                       >
                         <i class="tf-ion-close"></i>
                       </Link> */}
-                    </div>
-             
-                  </>
-                );
-              })}
-              </div>:<div><h3>Cart is Empty</h3></div>
-
-            }
-           
+                        </div>
+                      </>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div>
+                  <h3>Cart is Empty</h3>
+                </div>
+              )}
 
               <div class="cart-summary">
                 <span class="h6">Total</span>
@@ -258,13 +277,14 @@ console.log(getdata.cart,"headerdata")
             </div>
           </li>
           <li class="list-inline-item">
-            <Link href="#">
+            <Link to="#">
               <i class="tf-ion-ios-person mr-3"></i>
             </Link>
           </li>
         </ul>
       </div>
     </nav>
+  
   );
 }
 export default Header;

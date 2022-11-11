@@ -45,12 +45,12 @@
     // }
     //     ],
 
-    images:{
+    // images:{
     
-        // contentType:"image/jpg"
-        type:String
+    //     // contentType:"image/jpg"
+    //     type:String
 
-    },
+    // },
         category:{
             type:String,
             required:[true,'please enter product category']
